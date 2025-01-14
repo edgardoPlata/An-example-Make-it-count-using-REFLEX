@@ -2,38 +2,39 @@
 
 import reflex as rx
 
-from rxconfig import config
-
-
 class State(rx.State):
     """The app state."""
+    
+    #backend
 
-    ...
+    count: int = 0
+  
+    def incremenet(selft):
+        selft.count += 1
 
+    def decremenet(selft):
+        selft.count -= 1
 
-def index() -> rx.Component:
-    # Welcome Page (Index)
-    return rx.container(
-        rx.color_mode.button(position="top-right"),
-        rx.vstack(
-            rx.heading("Welcome to Reflex!", size="9"),
-            rx.text(
-                "Get started by editing ",
-                rx.code(f"{config.app_name}/{config.app_name}.py"),
-                size="5",
-            ),
-            rx.link(
-                rx.button("Check out our docs!"),
-                href="https://reflex.dev/docs/getting-started/introduction/",
-                is_external=True,
-            ),
-            spacing="5",
-            justify="center",
-            min_height="85vh",
+#frontend
+
+def index():
+    return rx.vstack(
+        rx.hstack(
+        rx.button(
+            "decrement",
+            color_scheme="amber",
+            on_click= State.decremenet,
+
         ),
-        rx.logo(),
-    )
+        rx.heading(State.count, font_size = "2em"),
+        rx.button(
+            "incremenet",
+            color_scheme="grass",
+            on_click=State.incremenet,
 
+        ),spacing="5",
+    )
+    )
 
 app = rx.App()
 app.add_page(index)
